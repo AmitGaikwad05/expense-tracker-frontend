@@ -188,7 +188,7 @@ const Dashboard = () => {
             <div className="rounded-2xl p-4 shadow-sm border bg-white text-gray-700 hover:shadow-md transition">
               <p className="text-sm text-gray-600">Duration between</p>
               <div className="text-2xl font-bold">
-                {loadingDashboardStats ? (
+                {duration ? (
                   <Loader2 />
                 ) : (
                   <div> {duration?.months ?? 0} months {duration?.days ?? 0} days </div>
