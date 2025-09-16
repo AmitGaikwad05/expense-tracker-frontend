@@ -11,9 +11,15 @@ import { FiCalendar } from 'react-icons/fi';
 
 const Dashboard = () => {
 
-  const [statsFromDate, setStatsFromDate] = useState(null);
-  const [statsToDate, setStatsToDate] = useState(null);
+    const today = new Date();
+    const oneMonthBefore = new Date();
+    oneMonthBefore.setMonth(today.getMonth() - 1);
+  
+  const [statsFromDate, setStatsFromDate] = useState(oneMonthBefore);
+  const [statsToDate, setStatsToDate] = useState(today);
   const [categoryView, setCategoryView] = useState('expense'); // 'expense' | 'earning'
+
+
 
   const dispatch = useDispatch();
   const {user, isAuthenticated, loading } = useSelector((state) => state.auth);
@@ -22,7 +28,7 @@ const Dashboard = () => {
 
 useEffect(()=>{
   dispatch(verifyAuth()).then(()=>{
-    dispatch(fetchDashboardStats());
+    dispatch(fetchDashboardStats({to: statsToDate, from: statsFromDate}));
   })
 }, [dispatch])
 
