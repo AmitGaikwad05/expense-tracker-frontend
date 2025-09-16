@@ -45,6 +45,7 @@ const dashboardSlice = createSlice({
   state.totalEarningAmt = action.payload.totalEarningAmt;
   state.days= action.payload.date;
   state.expenses = action.payload.expenses;
+  state.duration = action.payload.duration || {};
   state.earnings = action.payload.earnings || [];
   state.noOfExpenses = action.payload.noOfExpenses;
   state.noOfEarnings = action.payload.noOfEarnings;
