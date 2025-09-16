@@ -191,7 +191,7 @@ const Dashboard = () => {
                 {loadingDashboardStats ? (
                   <Loader2 />
                 ) : (
-                  <div> {duration?.months ?? 0} {duration.months === 1 ? "month" : "months"} <br /> {duration?.days ?? 0} {duration.days === 1 ? "day" : "days"} </div>
+                  <div className="text-gray-600" > {duration?.months ?? 0} <span className="text-xl"> {duration.months === 1 ? "month" : "months"} </span>  <br /> {duration?.days ?? 0} <span  className="text-xl" > {duration.days === 1 ? "day" : "days"} </span>  </div>
                 )}
               </div>
               <p className="text-xs text-gray-500 mt-1">Current range</p>
