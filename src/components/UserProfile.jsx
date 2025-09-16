@@ -137,7 +137,7 @@ const UserProfile = () => {
               </span>
             </div>
             <div className="flex gap-4 justify-end mt-2">
-              <button type="submit" className="flex items-center gap-2 text-sky-500  text-white px-4 py-2 rounded">
+              <button type="submit" className="flex items-center gap-2 text-sky-500 px-4 py-2 rounded">
                 <FiCheck /> Change
               </button>
               <button
