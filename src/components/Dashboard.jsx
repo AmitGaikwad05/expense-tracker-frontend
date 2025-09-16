@@ -20,8 +20,6 @@ const Dashboard = () => {
   const [statsFromDate, setStatsFromDate] = useState(toDateString(oneMonthBefore));
   const [statsToDate, setStatsToDate] = useState(toDateString(today));
   const [categoryView, setCategoryView] = useState("expense"); // 'expense' | 'earning'
-  const [durationMonth, setDurationMonth] = useState(0);
-  const [durationDay, setDurationDay] = useState(0);
 
   const dispatch = useDispatch();
   const { user, isAuthenticated, loading } = useSelector(
@@ -51,13 +49,6 @@ const Dashboard = () => {
       dispatch(fetchDashboardStats({ from: statsFromDate, to: statsToDate }));
     }
   }, [dispatch, isAuthenticated, statsFromDate, statsToDate]);
-
-  useEffect(() => {
-    if (duration) {
-      setDurationMonth(duration.months ?? 0);
-      setDurationDay(duration.days ?? 0);
-    }
-  }, [duration]);
 
   const categorySummary = useMemo(() => {
     const source = categoryView === "expense" ? expenses : earnings;
@@ -196,7 +187,11 @@ const Dashboard = () => {
             <div className="rounded-2xl p-4 shadow-sm border bg-white text-gray-700 hover:shadow-md transition">
               <p className="text-sm text-gray-600">Duration between</p>
               <div className="text-2xl font-bold">
-                {loadingDashboardStats ? (<Loader2 />) : (<div> {durationMonth } months {durationDay} days </div>) }
+                {loadingDashboardStats ? (
+                  <Loader2 />
+                ) : (
+                  <div> {duration?.months ?? 0} months {duration?.days ?? 0} days </div>
+                )}
               </div>
               <p className="text-xs text-gray-500 mt-1">Current range</p>
             </div>
