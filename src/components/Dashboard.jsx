@@ -55,24 +55,6 @@ const Dashboard = () => {
     }
   }, [statsFromDate, statsToDate]);
 
-  // ✅ Fixed rangeLabel
-  const rangeLabel = (() => {
-    if (duration && typeof duration === "object") {
-      const { months, days } = duration;
-      const parts = [];
-
-      if (typeof months === "number" && months > 0) {
-        parts.push(`${months} month${months > 1 ? "s" : ""}`);
-      }
-      if (typeof days === "number" && days > 0) {
-        parts.push(`${days} day${days > 1 ? "s" : ""}`);
-      }
-
-      if (parts.length === 0) return "0 days";
-      return parts.join(" ");
-    }
-    return "All time";
-  })();
 
   const categorySummary = useMemo(() => {
     const source = categoryView === "expense" ? expenses : earnings;
@@ -207,8 +189,8 @@ const Dashboard = () => {
             </div>
 
             <div className="rounded-2xl p-4 shadow-sm border bg-white text-gray-700 hover:shadow-md transition">
-              <p className="text-sm text-gray-600">Duration</p>
-              <h3 className="text-2xl font-bold">{rangeLabel}</h3>
+              <p className="text-sm text-gray-600">Duration between</p>
+              <h3 className="text-2xl font-bold">{ loadingDashboardStats? (<Loader2 />): (<div>{duration.months}months <br /> {duration.days} days </div>) }</h3>
               <p className="text-xs text-gray-500 mt-1">Current range</p>
             </div>
           </div>
