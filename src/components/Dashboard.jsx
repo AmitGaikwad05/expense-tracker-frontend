@@ -49,7 +49,10 @@ useEffect(() => {
   }
 }, [statsFromDate, statsToDate]);
 
-  const rangeLabel = (typeof duration === 'string' && duration.trim()) ? duration : ((typeof days === 'string' && days.trim()) ? days : 'All time');
+const rangeLabel = duration && typeof duration === "object"
+  ? `${duration.months} month(s) ${duration.days} day(s)`
+  : "All time";
+
 
   const categorySummary = useMemo(() => {
     const source = categoryView === 'expense' ? expenses : earnings;
