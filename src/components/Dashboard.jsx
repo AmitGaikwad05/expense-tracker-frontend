@@ -18,6 +18,8 @@ const Dashboard = () => {
   const [statsFromDate, setStatsFromDate] = useState(oneMonthBefore);
   const [statsToDate, setStatsToDate] = useState(today);
   const [categoryView, setCategoryView] = useState("expense"); // 'expense' | 'earning'
+  const [durationMonth, setDurationMonth] = useState(1);
+  const [durationDay, setDurationDay] = useState(0);
 
   const dispatch = useDispatch();
   const { user, isAuthenticated, loading } = useSelector(
@@ -38,7 +40,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(verifyAuth()).then(() => {
-      dispatch(fetchDashboardStats({ to: statsToDate, from: statsFromDate }));
+      dispatch(fetchDashboardStats({ to: statsToDate, from: statsFromDate }).then(()=>{
+        setDurationDay(duration.days);
+        setDurationMonth(duration.months)
+      }));
     });
   }, [dispatch]);
 
@@ -202,13 +207,14 @@ const Dashboard = () => {
               </p>
             </div>
 
-            {/* <div className="rounded-2xl p-4 shadow-sm border bg-white text-gray-700 hover:shadow-md transition">
+            <div className="rounded-2xl p-4 shadow-sm border bg-white text-gray-700 hover:shadow-md transition">
               <p className="text-sm text-gray-600">Duration between</p>
               <div className="text-2xl font-bold">
-                {loadingDashboardStats ? <Loader2 /> : durationLabel}
+                {loadingDashboardStats ? (<Loader2 />) : (<div> {durationMonth } months {durationDay} days </div>) }
               </div>
               <p className="text-xs text-gray-500 mt-1">Current range</p>
-            </div> */}
+            </div>
+
           </div>
 
           {/* --------------------- Charts ---------------------- */}
