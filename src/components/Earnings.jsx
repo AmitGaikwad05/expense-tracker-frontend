@@ -9,6 +9,7 @@ import { addEarning, getEarnings, deleteEarning, updateEarning } from "../store/
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { FiFilter } from "react-icons/fi";
 import { LuArrowUpDown } from "react-icons/lu";
+import Loader2 from "./Loader2";
 
 const Earnings = () => {
   const earningTitle = useRef("");
@@ -132,7 +133,7 @@ const Earnings = () => {
 
         <div className="bg-gray-50 rounded w-11/12 md:w-3/4 min-h-[300px] p-4">
           {loadingEarnings ? (
-            <Loader />
+            <Loader2 />
           ) : earnings.length > 0 ? (
             <div className="w-full overflow-x-auto">
               <table className="min-w-full text-sm md:text-base">

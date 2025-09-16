@@ -135,7 +135,7 @@ useEffect(() => {
 
           <NavLink to="/expenses" className='rounded-2xl p-4 shadow-sm border bg-red-50 text-red-600 hover:shadow-md transition'>
             {loadingDashboardStats ? (
-              <Loader />
+              <Loader2 />
             ) : (
               <div>
                 <p className='text-sm text-red-700'>Total Expenses</p>

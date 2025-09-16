@@ -9,6 +9,7 @@ import { addExpense, getExpenses, deleteExpense, updateExpense } from "../store/
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { FiFilter } from "react-icons/fi";
 import { LuArrowUpDown } from "react-icons/lu";
+import Loader2 from "./Loader2";
 
 const Expenses = () => {
   const expenseTitle = useRef("");
@@ -137,7 +138,7 @@ const Expenses = () => {
 
         <div className="bg-gray-50 rounded w-11/12 md:w-3/4 min-h-[300px] p-4">
           {loadingExpenses ? (
-            <Loader />
+            <Loader2 />
           ) : expenses.length > 0 ? (
             <div className="w-full overflow-x-auto">
               <table className="min-w-full text-sm md:text-base">
