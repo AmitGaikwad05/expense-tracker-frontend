@@ -8,6 +8,7 @@ import { fetchDashboardStats } from '../store/dashboardSlice';
 import {Chart as ChartJS} from "chart.js/auto";
 import {Doughnut, Line} from "react-chartjs-2";
 import { FiCalendar } from 'react-icons/fi';
+import Loader2 from './Loader2';
 
 const Dashboard = () => {
 
@@ -122,7 +123,7 @@ useEffect(() => {
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
           <NavLink to="/earnings" className='rounded-2xl p-4 shadow-sm border bg-green-50 text-green-700 hover:shadow-md transition'>
             {loadingDashboardStats ? (
-              <Loader />
+              <Loader2 />
             ) : (
               <div>
                 <p className='text-sm text-green-700'>Total Earnings</p>
