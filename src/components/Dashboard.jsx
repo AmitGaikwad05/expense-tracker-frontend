@@ -55,7 +55,6 @@ const Dashboard = () => {
     }
   }, [statsFromDate, statsToDate]);
 
-  // 🟢 Duration Label fix
   const durationLabel = (() => {
     if (duration && typeof duration === "object") {
       const months = duration.months ?? 0;
@@ -203,14 +202,14 @@ const Dashboard = () => {
               </p>
             </div>
 
-            <div className="rounded-2xl p-4 shadow-sm border bg-white text-gray-700 hover:shadow-md transition">
+            {/* <div className="rounded-2xl p-4 shadow-sm border bg-white text-gray-700 hover:shadow-md transition">
               <p className="text-sm text-gray-600">Duration between</p>
               <div className="text-2xl font-bold">
                 {loadingDashboardStats ? <Loader2 /> : durationLabel}
               </div>
               <p className="text-xs text-gray-500 mt-1">Current range</p>
             </div>
-          </div>
+          </div> */}
 
           {/* --------------------- Charts ---------------------- */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
