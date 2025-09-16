@@ -1,0 +1,206 @@
+import { useEffect, useState } from 'react';
+import Loader from './Loader';
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, NavLink } from 'react-router-dom';
+import {logoutUser, verifyAuth } from '../store/authSlice';
+import Sidebar from './Sidebar';
+import { fetchDashboardStats } from '../store/dashboardSlice';
+import {Chart as ChartJS} from "chart.js/auto";
+import {Doughnut, Line} from "react-chartjs-2";
+
+const Dashboard = () => {
+
+  const [statsFromDate, setStatsFromDate] = useState(null);
+  const [statsToDate, setStatsToDate] = useState(null);
+
+  console.log(statsFromDate, statsToDate);
+
+  const dispatch = useDispatch();
+  const {user, isAuthenticated, loading } = useSelector((state) => state.auth);
+
+  const {noOfExpenses, noOfEarnings, totalExpenseAmt, totalEarningAmt, duration, days, loadingDashboardStats, error, dataset } = useSelector((state) => state.dashboard);
+
+
+useEffect(()=>{
+dispatch(verifyAuth()).then(()=>{
+  dispatch(fetchDashboardStats());
+})
+}, [dispatch])
+
+// Hnadling logout
+const handleLogout = () => {
+dispatch(logoutUser());
+};
+
+
+const handleStatsFilter = ()=>{
+console.log("handle button running")
+const filterDates = {
+  from :statsFromDate ,
+  to: statsToDate
+}
+dispatch(fetchDashboardStats(filterDates));
+setStatsFromDate(null);
+setStatsToDate(null);
+}
+
+if(statsFromDate !== null && statsToDate !==null){
+  handleStatsFilter();
+}
+
+  if (loading) return <Loader />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+
+  const rangeLabel = (typeof duration === 'string' && duration.trim()) ? duration : ((typeof days === 'string' && days.trim()) ? days : 'All time');
+
+// ===================== DASHBOARD =========================
+  return <div className='flex w-full h-full overflow-y-scroll bg-gray-50' >
+    <Sidebar user={user} />
+    <div className='flex flex-col w-full min-h-screen'>
+
+      {/* Top bar: filters */}
+      <div className='w-full bg-white border-b px-3 md:px-6 py-3 flex flex-col sm:flex-row sm:items-end gap-3 sticky top-0 z-10'>
+        <div className='flex-1'>
+          <p className='text-sm text-gray-600'>Filter expenses</p>
+          <div className='flex flex-col xs:flex-row items-start xs:items-center gap-2'>
+            <label htmlFor="expense_from_date" className='text-sm text-gray-700'>From</label>
+            <input className='border rounded px-2 py-1 text-sm' onChange={(e) => { setStatsFromDate(e.target.value) }} id='expense_from_date' type="date" />
+            <label htmlFor="expense_to_date" className='text-sm text-gray-700'>To</label>
+            <input className='border rounded px-2 py-1 text-sm' onChange={(e) => { setStatsToDate(e.target.value) }} id='expense_to_date' type="date" />
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className='w-full max-w-7xl mx-auto px-3 md:px-6 py-4 md:py-6 flex flex-col gap-6'>
+
+        {/* Stat cards */}
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+          <NavLink to="/earnings" className='rounded-2xl p-4 shadow-sm border bg-green-50 text-green-700 hover:shadow-md transition'>
+            {loadingDashboardStats ? (
+              <Loader />
+            ) : (
+              <div>
+                <p className='text-sm text-green-700'>Total Earnings</p>
+                <h3 className='text-2xl font-bold'>Rs. {totalEarningAmt}</h3>
+                <p className='text-xs text-green-700/80 mt-1'>Records: {noOfEarnings}</p>
+              </div>
+            )}
+          </NavLink>
+
+          <NavLink to="/expenses" className='rounded-2xl p-4 shadow-sm border bg-red-50 text-red-600 hover:shadow-md transition'>
+            {loadingDashboardStats ? (
+              <Loader />
+            ) : (
+              <div>
+                <p className='text-sm text-red-700'>Total Expenses</p>
+                <h3 className='text-2xl font-bold'>Rs. {totalExpenseAmt}</h3>
+                <p className='text-xs text-red-700/80 mt-1'>Records: {noOfExpenses}</p>
+              </div>
+            )}
+          </NavLink>
+
+          <div className='rounded-2xl p-4 shadow-sm border bg-green-50 text-green-700 hover:shadow-md transition'>
+            <p className='text-sm text-green-700'>Savings</p>
+            <h3 className='text-2xl font-bold'>{ parseInt(totalEarningAmt-totalExpenseAmt) }</h3>
+            <p className='text-xs text-green-700/80 mt-1'>Earnings - Expenses</p>
+          </div>
+
+          <div className='rounded-2xl p-4 shadow-sm border bg-white text-gray-700 hover:shadow-md transition'>
+            <p className='text-sm text-gray-600'>Duration</p>
+            <h3 className='text-2xl font-bold'>{rangeLabel}</h3>
+            <p className='text-xs text-gray-500 mt-1'>Current range</p>
+          </div>
+        </div>
+
+        {/* Charts grid */}
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 items-start'>
+          <div className='bg-white rounded-2xl border shadow-sm p-4 lg:col-span-1'>
+            <h4 className='text-base font-semibold mb-3'>Totals Overview</h4>
+            <div className='h-64 md:h-72'>
+              {dataset && dataset.length > 0 ? (
+                <Doughnut 
+                  data={{
+                    labels: ['Total Expenses', 'Total Earnings'],
+                    datasets: [
+                      {
+                        label: 'Total',
+                        data: [
+                          dataset.reduce((sum, item) => sum + item.expenseAmt, 0),
+                          dataset.reduce((sum, item) => sum + item.earningAmt, 0)
+                        ],
+                        backgroundColor: [
+                          'rgba(239, 68, 68, 0.7)',
+                          'rgba(34, 197, 94, 0.7)'
+                        ],
+                        borderColor: [
+                          'rgba(239, 68, 68, 1)',
+                          'rgba(34, 197, 94, 1)'
+                        ],
+                        borderWidth: 2
+                      }
+                    ]
+                  }}
+                  options={{
+                    plugins: {
+                      legend: { position: 'bottom' },
+                      tooltip: { enabled: true }
+                    },
+                    maintainAspectRatio: false,
+                    responsive: true
+                  }}
+                />
+              ) : <p className='text-center p-4 text-sm text-gray-500'>No data for chart</p>}
+            </div>
+          </div>
+
+          <div className='bg-white rounded-2xl border shadow-sm p-4 lg:col-span-2'>
+            <h4 className='text-base font-semibold mb-3'>Monthly Summary</h4>
+            <div className='h-72 md:h-96'>
+              {dataset && dataset.length > 0 ? (
+                <Line
+                  data={{
+                    labels: dataset.map(item => item.label),
+                    datasets: [
+                      {
+                        label: 'Expenses',
+                        data: dataset.map(item => item.expenseAmt),
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                        tension: 0.35,
+                        fill: true
+                      },
+                      {
+                        label: 'Earnings',
+                        data: dataset.map(item => item.earningAmt),
+                        borderColor: 'rgba(34, 197, 94, 1)',
+                        backgroundColor: 'rgba(34, 197, 94, 0.2)',
+                        tension: 0.35,
+                        fill: true
+                      }
+                    ]
+                  }}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: { position: 'top' },
+                      tooltip: { enabled: true }
+                    },
+                    scales: {
+                      y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.06)' } },
+                      x: { grid: { display: false } }
+                    }
+                  }}
+                />
+              ) : <p className='text-center p-4 text-sm text-gray-500'>No data for chart</p>}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>;
+};
+
+export default Dashboard;

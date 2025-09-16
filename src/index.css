@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+#root{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stats-div{
+    /* background-color: antiquewhite; */
+    margin: 20px;
+    padding: 10px;
+    border-radius: 25px;
+    width: 300px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.stats-div h3{
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.stats-div p{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.active-link{
+    background-color: rgb(0, 194, 58);
+    border-radius: 10px;
+    color: white;
+}
+
+
+button{
+    cursor: pointer;
+}
+
+/* =================== Loader Styling ======================== */
+.loading-wave {
+    /* background-color: #bddcf1; */
+  width: 100px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.loading-bar {
+  width: 5px;
+  height: 5px;
+  margin: 0 4px;
+  background-color: #41c70d;    
+  border-radius: 5px;
+  animation: loading-wave-animation 1s ease-in-out infinite;
+}
+
+.loading-bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.loading-bar:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.loading-bar:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes loading-wave-animation {
+  0% {
+    height: 5px;
+  }
+
+  50% {
+    height: 30px;
+  }
+
+  100% {
+    height: 5px;
+  }
+}
