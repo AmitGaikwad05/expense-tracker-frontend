@@ -208,8 +208,8 @@ const Dashboard = () => {
                 {loadingDashboardStats ? <Loader2 /> : durationLabel}
               </div>
               <p className="text-xs text-gray-500 mt-1">Current range</p>
-            </div>
-          </div> */}
+            </div> */}
+          </div>
 
           {/* --------------------- Charts ---------------------- */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
