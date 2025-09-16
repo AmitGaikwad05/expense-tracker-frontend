@@ -71,7 +71,7 @@ export const verifyAuth = createAsyncThunk(
   "auth/verify",
   async () => {
     const res = await fetch(`${API_URL}/auth/verify`, {
-      method: "GET",
+      method: "POST",
       credentials: "include",
     });
     
