@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+const API_URL = import.meta.env.VITE_SERVER_URI;
 
 // ==================== FETCH DASHBOARD STATS THUNK ======================
 export const fetchDashboardStats = createAsyncThunk("fetchStats", 
  async (formData) => {
-    const res = await fetch("http://localhost:3000/dashboard/stats", {
+    const res = await fetch(`${API_URL}/dashboard/stats`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

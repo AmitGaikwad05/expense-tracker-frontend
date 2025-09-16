@@ -1,8 +1,11 @@
+const API_URL = import.meta.env.VITE_SERVER_URI;
+
+
 // ===================== DELETE EARNING THUNK ===========================
 export const deleteEarning = createAsyncThunk(
   "deleteEarning",
   async (earningId) => {
-    const res = await fetch(`http://localhost:3000/earnings/${earningId}`, {
+    const res = await fetch(`${API_URL}/earnings/${earningId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -16,7 +19,7 @@ export const deleteEarning = createAsyncThunk(
 export const updateEarning = createAsyncThunk(
   "updateEarning",
   async ({ earningId, formData }) => {
-    const res = await fetch(`http://localhost:3000/earnings/${earningId}`, {
+    const res = await fetch(`${API_URL}/earnings/${earningId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -33,7 +36,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const addEarning = createAsyncThunk(
   "addEarning",
   async (formData) => {
-    const res = await fetch("http://localhost:3000/earnings", {
+    const res = await fetch(`${API_URL}/earnings`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -55,7 +58,7 @@ export const getEarnings = createAsyncThunk(
       sort
     });
     const res = await fetch(
-      `http://localhost:3000/earnings?${params.toString()}`,
+      `${API_URL}/earnings?${params.toString()}`,
       { method: "GET", credentials: "include" }
     );
     const data = await res.json();

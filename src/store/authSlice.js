@@ -1,8 +1,10 @@
+const API_URL = import.meta.env.VITE_SERVER_URI;
+
 // ==================== CHANGE PASSWORD THUNK ======================
 export const changePassword = createAsyncThunk(
   "auth/changePassword",
   async ({ currentPassword, newPassword }) => {
-    const res = await fetch("http://localhost:3000/user/change-password", {
+    const res = await fetch(`${API_URL}/user/change-password`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ currentPassword, newPassword }),
@@ -18,7 +20,7 @@ export const changePassword = createAsyncThunk(
 export const deleteAccount = createAsyncThunk(
   "auth/deleteAccount",
   async () => {
-    const res = await fetch("http://localhost:3000/user/delete", {
+    const res = await fetch(`${API_URL}/user/delete`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -33,7 +35,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const signupUser = createAsyncThunk(
   "auth/signup",
   async (formData) => {
-    const res = await fetch("http://localhost:3000/auth/signup", {
+    const res = await fetch(`${API_URL}/auth/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -50,7 +52,7 @@ export const signupUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (formData) => {
-    const res = await fetch("http://localhost:3000/auth/login", {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
@@ -68,7 +70,7 @@ export const loginUser = createAsyncThunk(
 export const verifyAuth = createAsyncThunk(
   "auth/verify",
   async () => {
-    const res = await fetch("http://localhost:3000/auth/verify", {
+    const res = await fetch(`${API_URL}/auth/verify`, {
       method: "GET",
       credentials: "include",
     });
@@ -83,7 +85,7 @@ export const verifyAuth = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
 "auth/logout",
 async()=>{
-  const res = await fetch("http://localhost:3000/auth/logout", {
+  const res = await fetch(`${API_URL}/auth/logout`, {
       method: "GET",
       credentials: "include",
     });
