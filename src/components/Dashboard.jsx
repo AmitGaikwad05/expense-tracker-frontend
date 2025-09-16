@@ -195,7 +195,7 @@ const Dashboard = () => {
                   <Loader2 />
                 ) : duration ? (
                   <>
-                    {duration.months} months <br /> {duration.days} days
+                    {dashboardStats.duration.months} months <br /> {dashboardStats.duration.days} days
                   </>
                 ) : (
                   "No duration"
