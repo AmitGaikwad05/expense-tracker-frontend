@@ -49,10 +49,15 @@ useEffect(() => {
   }
 }, [statsFromDate, statsToDate]);
 
-const rangeLabel = duration && typeof duration === "object"
-  ? `${duration.months} month(s) ${duration.days} day(s)`
-  : "All time";
-
+const rangeLabel = (() => {
+  if (duration && typeof duration === "object") {
+    const parts = [];
+    if (duration.months) parts.push(`${duration.months} month${duration.months > 1 ? "s" : ""}`);
+    if (duration.days) parts.push(`${duration.days} day${duration.days > 1 ? "s" : ""}`);
+    return parts.length ? parts.join(" ") : "0 days";
+  }
+  return "All time";
+})();
 
   const categorySummary = useMemo(() => {
     const source = categoryView === 'expense' ? expenses : earnings;
