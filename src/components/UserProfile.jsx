@@ -101,9 +101,9 @@ const UserProfile = () => {
         {showChangePass && (
           <form
             onSubmit={handleChangePassword}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded shadow-lg flex flex-col gap-4 w-96 z-50 border"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded shadow-lg flex flex-col gap-4 w-96 z-50 border border-gray-100"
           >
-            <h3 className="text-xl font-bold mb-2">Change Password</h3>
+            <h3 className="text-xl font-bold mb-2 text-sky-500 ">Change Password</h3>
             <div className="relative">
               <input
                 type={showCurrentPass ? "text" : "password"}
@@ -137,7 +137,7 @@ const UserProfile = () => {
               </span>
             </div>
             <div className="flex gap-4 justify-end mt-2">
-              <button type="submit" className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded">
+              <button type="submit" className="flex items-center gap-2 text-sky-500  text-white px-4 py-2 rounded">
                 <FiCheck /> Change
               </button>
               <button
@@ -154,8 +154,8 @@ const UserProfile = () => {
         {/* ----------------------------- Delete Account Confirm div ---------------------------- */}
         {showDeleteConfirm && (
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
-            <div className="bg-white p-8 rounded shadow-lg flex flex-col gap-4 w-96 border">
-              <h3 className="text-xl font-bold mb-2">Confirm Delete Account</h3>
+            <div className="bg-white p-8 rounded shadow-lg flex flex-col gap-4 w-96 border border-gray-100">
+              <h3 className="text-xl font-bold mb-2 text-red-500">Confirm Delete Account</h3>
               <p>Are you sure you want to delete your account? This action cannot be undone.</p>
               <div className="flex gap-4 justify-end mt-2">
                 <button
