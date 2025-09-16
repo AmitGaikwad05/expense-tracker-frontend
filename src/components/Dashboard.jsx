@@ -15,10 +15,12 @@ const Dashboard = () => {
   const oneMonthBefore = new Date();
   oneMonthBefore.setMonth(today.getMonth() - 1);
 
-  const [statsFromDate, setStatsFromDate] = useState(oneMonthBefore);
-  const [statsToDate, setStatsToDate] = useState(today);
+  const toDateString = (date) => date.toISOString().split("T")[0];
+
+  const [statsFromDate, setStatsFromDate] = useState(toDateString(oneMonthBefore));
+  const [statsToDate, setStatsToDate] = useState(toDateString(today));
   const [categoryView, setCategoryView] = useState("expense"); // 'expense' | 'earning'
-  const [durationMonth, setDurationMonth] = useState(1);
+  const [durationMonth, setDurationMonth] = useState(0);
   const [durationDay, setDurationDay] = useState(0);
 
   const dispatch = useDispatch();
@@ -38,42 +40,24 @@ const Dashboard = () => {
     earnings,
   } = useSelector((state) => state.dashboard);
 
+  // Effect for authentication
   useEffect(() => {
-    dispatch(verifyAuth()).then(() => {
-      dispatch(fetchDashboardStats({ to: statsToDate, from: statsFromDate }).then(()=>{
-        setDurationDay(duration.days);
-        setDurationMonth(duration.months)
-      }));
-    });
+    dispatch(verifyAuth());
   }, [dispatch]);
 
-  const handleStatsFilter = () => {
-    const filterDates = { from: statsFromDate, to: statsToDate };
-    dispatch(fetchDashboardStats(filterDates));
-    setStatsFromDate(null);
-    setStatsToDate(null);
-  };
+  // Effect for fetching stats on initial load (once authenticated) and when date range changes
+  useEffect(() => {
+    if (isAuthenticated && statsFromDate && statsToDate) {
+      dispatch(fetchDashboardStats({ from: statsFromDate, to: statsToDate }));
+    }
+  }, [dispatch, isAuthenticated, statsFromDate, statsToDate]);
 
   useEffect(() => {
-    if (statsFromDate !== null && statsToDate !== null) {
-      handleStatsFilter();
+    if (duration) {
+      setDurationMonth(duration.months ?? 0);
+      setDurationDay(duration.days ?? 0);
     }
-  }, [statsFromDate, statsToDate]);
-
-  const durationLabel = (() => {
-    if (duration && typeof duration === "object") {
-      const months = duration.months ?? 0;
-      const days = duration.days ?? 0;
-
-      return (
-        <>
-          {months} {months === 1 ? "month" : "months"} <br />
-          {days} {days === 1 ? "day" : "days"}
-        </>
-      );
-    }
-    return "No duration";
-  })();
+  }, [duration]);
 
   const categorySummary = useMemo(() => {
     const source = categoryView === "expense" ? expenses : earnings;
@@ -135,6 +119,7 @@ const Dashboard = () => {
                 <FiCalendar className="absolute left-2 top-1/2 -translate-y-1/2 text-green-700" />
                 <input
                   className="border rounded pl-8 pr-2 py-1 text-sm w-48"
+                  value={statsFromDate}
                   onChange={(e) => {
                     setStatsFromDate(e.target.value);
                   }}
@@ -147,6 +132,7 @@ const Dashboard = () => {
                 <FiCalendar className="absolute left-2 top-1/2 -translate-y-1/2 text-green-700" />
                 <input
                   className="border rounded pl-8 pr-2 py-1 text-sm w-48"
+                  value={statsToDate}
                   onChange={(e) => {
                     setStatsToDate(e.target.value);
                   }}
