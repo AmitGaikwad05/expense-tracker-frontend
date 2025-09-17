@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { signupUser } from '../store/authSlice';
 
-
 const Signup = () => {
   const name = useRef("");
   const email = useRef("");
@@ -20,11 +19,12 @@ const Signup = () => {
 
   const handleSignup = (e) => {
     e.preventDefault();
-
+    
     if (password.current.value !== confirmPassword.current.value) {
       setPasswordError("password does not match");
       return;
     }
+
     setPasswordError("");
 
     const formData = {
@@ -77,7 +77,6 @@ const Signup = () => {
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
               className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800"
-              aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>

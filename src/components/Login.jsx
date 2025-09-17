@@ -42,7 +42,7 @@ const navigate = useNavigate();
     <div className="w-full min-h-[calc(100vh-140px)] flex items-center justify-center px-4 py-8">
 
  <form onSubmit={handleLogin} method="POST" className="w-full max-w-md bg-white border border-gray-300 rounded-2xl shadow-lg p-6 md:p-8">
-        <h1 className="text-2xl font-semibold text-center mb-6 text-green-600">Welcome back</h1>
+        <h1 className="text-2xl font-semibold text-center mb-6 text-green-600">Login to your account </h1>
         <div className="mb-4">
           <label htmlFor="login_email" className="block text-sm mb-1">Email</label>
           <input id="login_email" type="email" ref={email} placeholder="you@example.com" required className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300" />
