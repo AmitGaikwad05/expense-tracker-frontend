@@ -26,6 +26,8 @@ const navigate = useNavigate();
 
       await dispatch(loginUser(formData));
       setDispatched(true);
+
+
       email.current.value = "";
       password.current.value = "";
   }
@@ -45,7 +47,7 @@ const navigate = useNavigate();
         <h1 className="text-2xl font-semibold text-center mb-6 text-green-600">Login to your account </h1>
         <div className="mb-4">
           <label htmlFor="login_email" className="block text-sm mb-1">Email</label>
-          <input id="login_email" type="email" ref={email} placeholder="you@example.com" required className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300" />
+          <input id="login_email" type="email" ref={email} placeholder="abc@gmail.com" required className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-300" />
         </div>
         <div className="mb-1">
           <label htmlFor="login_password" className="block text-sm mb-1">Password</label>

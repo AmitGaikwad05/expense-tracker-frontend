@@ -1,36 +1,5 @@
 const API_URL = import.meta.env.VITE_SERVER_URI;
 
-// ==================== CHANGE PASSWORD THUNK ======================
-export const changePassword = createAsyncThunk(
-  "auth/changePassword",
-  async ({ currentPassword, newPassword }) => {
-    const res = await fetch(`${API_URL}/user/change-password`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ currentPassword, newPassword }),
-      credentials: "include",
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to change password");
-    return data;
-  }
-);
-
-// ==================== DELETE ACCOUNT THUNK ======================
-export const deleteAccount = createAsyncThunk(
-  "auth/deleteAccount",
-  async () => {
-    const res = await fetch(`${API_URL}/user/delete`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Failed to delete account");
-    return data;
-  }
-);
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
 // ===================== SIGNUP THUNK ===========================
 export const signupUser = createAsyncThunk(
   "auth/signup",
@@ -95,6 +64,38 @@ async()=>{
     return data;
 }
 )
+
+// ==================== CHANGE PASSWORD THUNK ======================
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async ({ currentPassword, newPassword }) => {
+    const res = await fetch(`${API_URL}/user/change-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ currentPassword, newPassword }),
+      credentials: "include",
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Failed to change password");
+    return data;
+  }
+);
+
+// ==================== DELETE ACCOUNT THUNK ======================
+export const deleteAccount = createAsyncThunk(
+  "auth/deleteAccount",
+  async () => {
+    const res = await fetch(`${API_URL}/user/delete`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Failed to delete account");
+    return data;
+  }
+);
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 
 const authSlice = createSlice({
   name: "auth",
