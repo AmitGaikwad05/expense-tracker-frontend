@@ -275,7 +275,7 @@ const PALETTE_BORDER = [
                           borderColor: "rgba(34, 197, 94, 1)",
                           tension: 0.35,
                           fill: false,
-                          pointRadius: 2,
+                          pointRadius: 4,
                         },
                       ],
                     }}
