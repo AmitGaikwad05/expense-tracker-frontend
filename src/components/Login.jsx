@@ -4,29 +4,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../store/authSlice';
 import { useEffect } from 'react';
 import { FaEye as FaEyeIcon, FaEyeSlash as FaEyeSlashIcon } from 'react-icons/fa6';
+import Loader from './Loader';
 
 const Login = () => {
 
   const email = useRef("");
   const password = useRef("");
     const [showPassword, setShowPassword] = useState(false);
-  const [isDispatched, setDispatched] = useState(false)
+  const [isDispatching, setDispatching] = useState(false)
   
 const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { error: authError } = useSelector((state) => state.auth);
+  const { error: authError, isAuthenticated } = useSelector((state) => state.auth);
   
   const handleLogin = async (e)=>{
    e.preventDefault();
-
+    setDispatching(prev=>!prev)
    const formData = {
     email: email.current.value,
     password: password.current.value
    }
 
       await dispatch(loginUser(formData));
-      setDispatched(true);
-
+      setDispatching(prev=>!prev);
 
       email.current.value = "";
       password.current.value = "";
@@ -34,11 +34,13 @@ const navigate = useNavigate();
 
   useEffect(()=>{
 
-    if(isDispatched){
+    if(isAuthenticated){
     navigate("/dashboard", { replace: true })
     }
-  }, [isDispatched]);
+  }, [isAuthenticated]);
 
+  
+  if (isDispatching) return <Loader />;
 
   return (
     <div className="w-full min-h-[calc(100vh-140px)] flex items-center justify-center px-4 py-8">
