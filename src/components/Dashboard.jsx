@@ -19,7 +19,7 @@ const Dashboard = () => {
   
   const [statsFromDate, setStatsFromDate] = useState(toDateString(oneMonthBefore));
   const [statsToDate, setStatsToDate] = useState(toDateString(today));
-  const [categoryView, setCategoryView] = useState("expense"); // 'expense' | 'earning'
+  const [categoryView, setCategoryView] = useState("expense"); 
 
   const dispatch = useDispatch();
   const { user, isAuthenticated, loading } = useSelector(
@@ -43,7 +43,7 @@ const Dashboard = () => {
     dispatch(verifyAuth());
   }, [dispatch]);
 
-  // Effect for fetching stats on initial load (once authenticated) and when date range changes
+
   useEffect(() => {
     if (isAuthenticated && statsFromDate && statsToDate) {
       dispatch(fetchDashboardStats({ from: statsFromDate, to: statsToDate }));
@@ -62,30 +62,32 @@ const Dashboard = () => {
     const values = labels.map((l) => totals[l]);
 
     // categorical palette
-    const PALETTE = [
-      "rgba(16, 185, 129, 0.7)",
-      "rgba(59, 130, 246, 0.7)",
-      "rgba(244, 63, 94, 0.7)",
-      "rgba(34, 197, 94, 0.7)",
-      "rgba(245, 158, 11, 0.7)",
-      "rgba(99, 102, 241, 0.7)",
-      "rgba(2, 132, 199, 0.7)",
-      "rgba(234, 179, 8, 0.7)",
-      "rgba(139, 92, 246, 0.7)",
-      "rgba(168, 85, 247, 0.7)",
-    ];
-    const PALETTE_BORDER = [
-      "rgba(245, 158, 11, 1)",
-      "rgba(16, 185, 129, 1)",
-      "rgba(59, 130, 246, 1)",
-      "rgba(34, 197, 94, 1)",
-      "rgba(99, 102, 241, 1)",
-      "rgba(2, 132, 199, 1)",
-      "rgba(244, 63, 94, 1)",
-      "rgba(234, 179, 8, 1)",
-      "rgba(168, 85, 247, 1)",
-      "rgba(139, 92, 246, 1)",
-    ];
+const PALETTE = [
+  "rgba(16, 185, 129, 0.7)",  // green
+  "rgba(59, 130, 246, 0.7)",  // blue
+  "rgba(244, 63, 94, 0.7)",   // red/pink
+  "rgba(34, 197, 94, 0.7)",   // emerald
+  "rgba(245, 158, 11, 0.7)",  // amber
+  "rgba(99, 102, 241, 0.7)",  // indigo
+  "rgba(2, 132, 199, 0.7)",   // sky
+  "rgba(234, 179, 8, 0.7)",   // yellow
+  "rgba(139, 92, 246, 0.7)",  // violet
+  "rgba(168, 85, 247, 0.7)",  // purple
+];
+
+const PALETTE_BORDER = [
+  "rgba(16, 185, 129, 1)",  // green
+  "rgba(59, 130, 246, 1)",  // blue
+  "rgba(244, 63, 94, 1)",   // red/pink
+  "rgba(34, 197, 94, 1)",   // emerald
+  "rgba(245, 158, 11, 1)",  // amber
+  "rgba(99, 102, 241, 1)",  // indigo
+  "rgba(2, 132, 199, 1)",   // sky
+  "rgba(234, 179, 8, 1)",   // yellow
+  "rgba(139, 92, 246, 1)",  // violet
+  "rgba(168, 85, 247, 1)",  // purple
+];
+
 
     const bg = labels.map((_, i) => PALETTE[i % PALETTE.length]);
     const border = labels.map((_, i) => PALETTE_BORDER[i % PALETTE_BORDER.length]);
@@ -265,7 +267,7 @@ const Dashboard = () => {
                           borderColor: "rgba(239, 68, 68, 1)",
                           tension: 0.35,
                           fill: false,
-                          pointRadius: 2,
+                          pointRadius: 4,
                         },
                         {
                           label: "Earnings",

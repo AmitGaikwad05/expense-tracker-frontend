@@ -85,7 +85,7 @@ const expenseSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-  // --------------- Add Expense Thunk reducers -----------------
+
       // --------------- Delete Expense Thunk reducers -----------------
       .addCase(deleteExpense.fulfilled, (state, action) => {
         state.expenses = state.expenses.filter(exp => exp._id !== action.payload.expenseId);
@@ -102,6 +102,7 @@ const expenseSlice = createSlice({
       .addCase(updateExpense.rejected, (state, action) => {
         state.error = action.error.message || "Error updating expense";
       })
+        // --------------- Add Expense Thunk reducers -----------------
       .addCase(addExpense.pending, (state) => {
         state.loadingExpenses = true;
         state.error = null;
@@ -109,7 +110,7 @@ const expenseSlice = createSlice({
       .addCase(addExpense.fulfilled, (state, action) => {
         state.loadingExpenses = false;
         if (action.payload?.expense) {
-          state.expenses.unshift(action.payload.expense); // add new one at top
+          state.expenses.unshift(action.payload.expense); 
           state.totalExpenses += 1;
         }
       })
