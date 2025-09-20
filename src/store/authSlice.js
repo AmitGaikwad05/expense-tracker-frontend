@@ -1,4 +1,5 @@
 const API_URL = import.meta.env.VITE_SERVER_URI;
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 // ===================== SIGNUP THUNK ===========================
 export const signupUser = createAsyncThunk(
@@ -94,7 +95,7 @@ export const deleteAccount = createAsyncThunk(
     return data;
   }
 );
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
 
 
 const authSlice = createSlice({

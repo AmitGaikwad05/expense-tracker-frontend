@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { logoutUser, verifyAuth, changePassword, deleteAccount } from "../store/authSlice";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { FiKey, FiTrash2, FiLogOut, FiCheck, FiX } from "react-icons/fi"; // ✅ icons added
+import { FiKey, FiTrash2, FiLogOut, FiCheck, FiX } from "react-icons/fi";
 import Loader from "./Loader";
 import { Navigate } from "react-router-dom";
 
@@ -12,8 +12,10 @@ const UserProfile = () => {
   const { user, isAuthenticated, loading, error } = useSelector((state) => state.auth);
   const [showChangePass, setShowChangePass] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
+
+  const currentPass = useRef("");
+  const newPass = useRef("");
+
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [showCurrentPass, setShowCurrentPass] = useState(false);
@@ -31,18 +33,26 @@ const UserProfile = () => {
 
   const handleChangePassword = (e) => {
     e.preventDefault();
+
+    let currentPassword = currentPass.current.value;
+    let newPassword = newPass.current.value;
+
     dispatch(changePassword({ currentPassword, newPassword })).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
         setSuccessMsg("Password changed successfully");
         setShowChangePass(false);
-        setCurrentPassword("");
-        setNewPassword("");
+        currentPass.current.value = "";
+        newPass.current.value = "";
         setTimeout(() => setSuccessMsg(""), 2000);
       } else {
         setErrorMsg(res.error.message || "Failed to change password");
         setTimeout(() => setErrorMsg(""), 2000);
       }
     });
+
+    
+
+
   };
 
 
@@ -108,8 +118,7 @@ const UserProfile = () => {
               <input
                 type={showCurrentPass ? "text" : "password"}
                 placeholder="Current Password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
+                ref={currentPass}
                 required
                 className="border px-2 py-1 rounded w-full pr-10"
               />
@@ -124,8 +133,7 @@ const UserProfile = () => {
               <input
                 type={showNewPass ? "text" : "password"}
                 placeholder="New Password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                ref={newPass}
                 required
                 className="border px-2 py-1 rounded w-full pr-10"
               />
